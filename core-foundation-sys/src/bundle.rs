@@ -7,12 +7,13 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+use array::CFArrayRef;
 use std::os::raw::c_void;
 
-use base::{CFTypeID, CFAllocatorRef};
-use url::CFURLRef;
+use base::{CFAllocatorRef, CFTypeID};
 use dictionary::CFDictionaryRef;
 use string::CFStringRef;
+use url::CFURLRef;
 
 #[repr(C)]
 pub struct __CFBundle(c_void);
@@ -24,6 +25,11 @@ extern {
      * CFBundle.h
      */
     pub fn CFBundleCreate(allocator: CFAllocatorRef, bundleURL: CFURLRef) -> CFBundleRef;
+    pub fn CFBundleCreateBundlesFromDirectory(
+        allocator: CFAllocatorRef,
+        bundleURL: CFURLRef,
+        bundleType: CFStringRef,
+    ) -> CFArrayRef;
 
     pub fn CFBundleGetBundleWithIdentifier(bundleID: CFStringRef) -> CFBundleRef;
     pub fn CFBundleGetFunctionPointerForName(bundle: CFBundleRef, function_name: CFStringRef) -> *const c_void;
