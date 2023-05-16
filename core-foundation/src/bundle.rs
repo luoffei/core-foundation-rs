@@ -14,11 +14,14 @@ pub use core_foundation_sys::bundle::*;
 use core_foundation_sys::url::kCFURLPOSIXPathStyle;
 use std::path::PathBuf;
 
+use array::CFArray;
 use base::{CFType, TCFType};
-use url::CFURL;
+use core_foundation_sys::array::CFArrayRef;
 use dictionary::CFDictionary;
 use std::os::raw::c_void;
+use std::ptr;
 use string::CFString;
+use url::CFURL;
 
 declare_TCFType!{
     /// A Bundle type.
@@ -45,6 +48,21 @@ impl CFBundle {
                 None
             } else {
                 Some(TCFType::wrap_under_get_rule(bundle_ref))
+            }
+        }
+    }
+
+    pub fn bundles_from_directory(bundleURL: CFURL) -> Option<CFArray> {
+        unsafe {
+            let array_ref = CFBundleCreateBundlesFromDirectory(
+                kCFAllocatorDefault,
+                bundleURL.as_concrete_TypeRef(),
+                ptr::null(),
+            );
+            if array_ref.is_null() {
+                None
+            } else {
+                Some(TCFType::wrap_under_create_rule(array_ref))
             }
         }
     }
