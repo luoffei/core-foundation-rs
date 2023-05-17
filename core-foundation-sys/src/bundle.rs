@@ -10,7 +10,7 @@
 use array::CFArrayRef;
 use std::os::raw::c_void;
 
-use base::{CFAllocatorRef, CFTypeID};
+use base::{CFAllocatorRef, CFTypeID, CFTypeRef};
 use dictionary::CFDictionaryRef;
 use string::CFStringRef;
 use url::CFURLRef;
@@ -35,6 +35,7 @@ extern {
     pub fn CFBundleGetFunctionPointerForName(bundle: CFBundleRef, function_name: CFStringRef) -> *const c_void;
     pub fn CFBundleGetMainBundle() -> CFBundleRef;
     pub fn CFBundleGetInfoDictionary(bundle: CFBundleRef) -> CFDictionaryRef;
+    pub fn CFBundleGetValueForInfoDictionaryKey(bundle: CFBundleRef, key: CFStringRef) -> CFTypeRef;
 
     pub fn CFBundleGetTypeID() -> CFTypeID;
     pub fn CFBundleCopyExecutableURL(bundle: CFBundleRef) -> CFURLRef;
